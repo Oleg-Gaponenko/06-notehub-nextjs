@@ -19,7 +19,7 @@ interface CreateNoteParams {
     tag: NoteTag;
 }
 
-const noteHubToken = import.meta.env.VITE_NOTEHUB_TOKEN;
+const noteHubToken = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
 const baseUrl = 'https://notehub-public.goit.study/api';
 
 const instance = axios.create({
@@ -54,4 +54,17 @@ export async function createNote(newNote: CreateNoteParams): Promise<Note> {
 export async function deleteNote (noteId:number): Promise<Note> {
     const response: AxiosResponse<Note> = await instance.delete(`/notes/${noteId}`);
     return response.data;
+}
+
+export async function fetchNoteById(noteId: number): Promise<Note> {
+  const response: AxiosResponse<Note> = await instance.get(`/notes/${noteId}`);
+  return response.data;
+}
+
+export async function updateNote(
+  noteId: number,
+  updatedFields: { title?: string; content?: string; tag?: NoteTag }
+): Promise<Note> {
+  const response = await instance.patch(`/notes/${noteId}`, updatedFields);
+  return response.data;
 }
