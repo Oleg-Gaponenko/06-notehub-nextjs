@@ -4,11 +4,13 @@ import getQueryClient from '@/lib/getQueryClient';
 import NoteDetails from './NoteDetails.client';
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 
-export default async function NoteDetailsPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+type NoteDetailsProps = {
+  params: {
+    id: string;
+  };
+};
+
+export default async function NoteDetailsPage({ params }: NoteDetailsProps) {
   const id = Number(params.id);
 
   const queryClient = getQueryClient();
