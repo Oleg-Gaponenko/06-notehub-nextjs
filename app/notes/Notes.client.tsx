@@ -13,11 +13,15 @@ import Loader from '../../components/Loader/Loader';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import AbsentDataMessage from '../../components/AbsentDataMessage/AbsentDataMessage';
 
-export default function NotesClient() {
+interface NotesClientProps {
+  initialData: NoteHubResponse;
+}
+
+export default function NotesClient({ initialData }: NotesClientProps) {
   const [searchNote, setSearchNote] = useState('');
   const [debouncedSearch] = useDebounce(searchNote, 500);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [totalPages, setTotalPages] = useState(initialData.totalPages);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const notesPerPage = 12;
 
@@ -30,6 +34,7 @@ export default function NotesClient() {
         perPage: notesPerPage,
       }),
     placeholderData: previousData => previousData,
+    initialData,
   });
 
   useEffect(() => {
@@ -54,7 +59,7 @@ export default function NotesClient() {
         </button>
       </header>
       {isLoading && <Loader />}
-      {isError && <ErrorMessage message={error!.message} />}
+      {isError && error && <ErrorMessage message={error.message} />}
       {data && data?.notes.length > 0 && <NoteList notes={data.notes} />}
       {!isLoading && !isError && data && data?.notes.length === 0 && (
         <AbsentDataMessage />

@@ -18,8 +18,12 @@ export default function NoteList({ notes }: NoteListProps) {
       toast.success('Note was deleted');
       queryClient.invalidateQueries({ queryKey: ['notes'] });
     },
-    onError: () => {
-      toast.error('Failed to delete note');
+    onError: (error: unknown) => {
+      if (error instanceof Error) {
+        toast.error(`Failed to delete note: ${error.message}`);
+      } else {
+        toast.error('Failed to delete note');
+      }
     },
   });
 
@@ -35,6 +39,7 @@ export default function NoteList({ notes }: NoteListProps) {
             <button
               className={css.button}
               onClick={() => deleteMutation.mutate(note.id)}
+              disabled={deleteMutation.isPending}
             >
               Delete
             </button>

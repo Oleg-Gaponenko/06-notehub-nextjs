@@ -9,8 +9,14 @@ export default function Footer() {
         <div className={css.wrap}>
           <p>Developer: Oleg Gaponenko</p>
           <p>
-            Contact us:
-            <a href="<mailto:st@notehub.app>">st@notehub.app</a>
+            Contact us:{' '}
+            <a
+              rel="noopener noreferrer"
+              target="_blank"
+              href="mailto:st@notehub.app"
+            >
+              st@notehub.app
+            </a>
           </p>
         </div>
       </div>

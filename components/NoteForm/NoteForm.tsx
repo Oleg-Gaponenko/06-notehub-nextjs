@@ -1,4 +1,4 @@
-import { Field, Formik, Form, type FormikHelpers, ErrorMessage } from 'formik';
+import { Field, Formik, Form, ErrorMessage } from 'formik';
 import type { NoteTag } from '../../types/note';
 import css from './NoteForm.module.css';
 import * as Yup from 'yup';
@@ -45,12 +45,8 @@ export default function NoteForm({ onCancel }: NoteFormProps) {
     },
   });
 
-  const handleSubmit = (
-    values: NoteFormValues,
-    { resetForm }: FormikHelpers<NoteFormValues>
-  ) => {
+  const handleSubmit = (values: NoteFormValues) => {
     mutation.mutate(values);
-    resetForm();
   };
 
   return (
