@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import css from './Notes.module.css';
 import SearchBox from '../../components/SearchBox/SearchBox';
 import NoteList from '../../components//NoteList/NoteList';
@@ -21,7 +21,6 @@ export default function NotesClient({ initialData }: NotesClientProps) {
   const [searchNote, setSearchNote] = useState('');
   const [debouncedSearch] = useDebounce(searchNote, 500);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(initialData.totalPages);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const notesPerPage = 12;
 
@@ -37,21 +36,15 @@ export default function NotesClient({ initialData }: NotesClientProps) {
     initialData,
   });
 
-  useEffect(() => {
-    if (data?.totalPages) {
-      setTotalPages(data.totalPages);
-    }
-  }, [data]);
-
   return (
     <div className={css.app}>
       <header className={css.toolbar}>
         <SearchBox value={searchNote} onChange={setSearchNote} />
-        {totalPages > 1 && (
+        {data?.totalPages > 1 && (
           <Pagination
             currentPage={currentPage}
             onPageChange={setCurrentPage}
-            totalPages={totalPages}
+            totalPages={data.totalPages}
           />
         )}
         <button className={css.button} onClick={() => setIsModalOpen(true)}>
